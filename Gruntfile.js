@@ -4,11 +4,13 @@ module.exports = function(grunt) {
 
     sass: {
       options: {
-        includePaths: ['bower_components/foundation/scss']
+          includePaths: ['bower_components/foundation/scss'],
+	  sourceMap: true,
+	  debugInfo: true,
       },
       dist: {
         options: {
-          outputStyle: 'compressed'
+          outputStyle: 'neasted'
         },
         files: {
           'css/app.css': 'scss/app.scss'
@@ -16,8 +18,17 @@ module.exports = function(grunt) {
       }
     },
 
-    watch: {
-      grunt: { files: ['Gruntfile.js'] },
+      postcss: {
+	  options: {
+	      processors: [
+		  require('autoprefixer-core')({ browsers: ['last 2 version'] }).postcss
+	      ]
+	  },
+	  dist: {src: 'css/*.css' }
+      },
+      
+      watch: {
+	  grunt: { files: ['Gruntfile.js'] },
 
       sass: {
         files: 'scss/**/*.scss',
